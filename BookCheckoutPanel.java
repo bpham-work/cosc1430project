@@ -27,8 +27,8 @@ public class BookCheckoutPanel extends JPanel {
         this.parentLayout = parentLayout;
         this.bookService = BookService.getInstance();
         this.bookData = this.bookService.getBooksForTable();
-
         setLayout(new GridBagLayout());
+
         tableModel = new DefaultTableModel(bookData, COLUMN_NAMES) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -36,25 +36,38 @@ public class BookCheckoutPanel extends JPanel {
             }
         };
         dataTable = new JTable(tableModel);
+
         GridBagConstraints gc = new GridBagConstraints();
         gc.fill = GridBagConstraints.HORIZONTAL;
+        gc.insets = new Insets(10, 10, 10, 10);
+
         gc.gridx = 0;
         gc.gridy = 0;
         add(new JScrollPane(dataTable), gc);
 
         JButton borrowButton = new JButton("Borrow");
-        GridBagConstraints borrowButtonConstraints = new GridBagConstraints();
-        borrowButtonConstraints.fill = GridBagConstraints.HORIZONTAL;
-        borrowButtonConstraints.gridx = 0;
-        borrowButtonConstraints.gridwidth = 1;
-        borrowButtonConstraints.anchor = GridBagConstraints.PAGE_END;
-        borrowButtonConstraints.gridy = 2;
         borrowButton.addActionListener(new BookCheckoutActionListener());
-        add(borrowButton, borrowButtonConstraints);
+        gc.gridx = 1;
+        gc.gridy = 0;
+        add(borrowButton, gc);
+
+        JButton returnButton = new JButton("Return");
+        returnButton.addActionListener(new ReturnBookActionListener());
+        gc.gridx = 1;
+        gc.gridy = 1;
+        add(returnButton, gc);
+
+        JButton refreshButton = new JButton("Refresh");
+        refreshButton.addActionListener(new RefreshBooksActionListener());
+        gc.gridx = 1;
+        gc.gridy = 2;
+        add(refreshButton, gc);
 
         JButton logOffButton = new JButton("Log off");
         logOffButton.addActionListener(new LogOffActionListener(parentPanel, parentLayout));
-        add(logOffButton);
+        gc.gridx = 1;
+        gc.gridy = 3;
+        add(logOffButton, gc);
     }
 
     public void refreshBooks(String[][] bookData) {
@@ -78,6 +91,27 @@ public class BookCheckoutPanel extends JPanel {
             bookService.checkoutBook(isbn);
             String[][] bookData = bookService.getBooksForTable();
             refreshBooks(bookData);
+        }
+    }
+
+    private class ReturnBookActionListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int selectedRowIndex = dataTable.getSelectedRow();
+            String[] selectedRow = bookData[selectedRowIndex];
+            String isbn = selectedRow[3];
+            bookService.returnBook(isbn);
+            String[][] bookData = bookService.getBooksForTable();
+            refreshBooks(bookData);
+        }
+    }
+
+    private class RefreshBooksActionListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            refreshBooks(bookService.getBooksForTable());
         }
     }
 }

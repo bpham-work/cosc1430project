@@ -32,7 +32,6 @@ public class AddBookPanel extends JPanel {
         add(banner, gc);
 
         actionMessage = new JLabel();
-        actionMessage.setForeground(Color.RED);
         gc.gridx = 0;
         gc.gridy = 1;
         add(actionMessage, gc);
@@ -98,11 +97,15 @@ public class AddBookPanel extends JPanel {
         private boolean isValidEntry(String title, String author, String releaseDate, String isbn) {
             if (bookService.bookExists(isbn)) {
                 actionMessage.setText("Book with ISBN-10 number exists");
+                actionMessage.setForeground(Color.RED);
                 return false;
             } else if (!title.isEmpty() && !author.isEmpty() && !releaseDate.isEmpty() && !isbn.isEmpty()) {
+                actionMessage.setText("Successfully added book");
+                actionMessage.setForeground(Color.GREEN);
                 return true;
             } else {
                 actionMessage.setText("You must fill in all fields");
+                actionMessage.setForeground(Color.RED);
                 return false;
             }
         }
