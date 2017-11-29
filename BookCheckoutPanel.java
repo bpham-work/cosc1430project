@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
@@ -7,6 +6,7 @@ public class BookCheckoutPanel extends JPanel {
     private JPanel parentPanel;
     private CardLayout parentLayout;
     private JTable dataTable;
+    private BookService bookService;
 
     private final String[] COLUMN_NAMES = {
             "Book Title",
@@ -20,6 +20,8 @@ public class BookCheckoutPanel extends JPanel {
         super();
         this.parentPanel = parentPanel;
         this.parentLayout = parentLayout;
+        this.bookService = BookService.getInstance();
+
         setLayout(new GridBagLayout());
         DefaultTableModel nonEditableTableModel = new DefaultTableModel(getBookData(), COLUMN_NAMES) {
             @Override
@@ -43,14 +45,12 @@ public class BookCheckoutPanel extends JPanel {
         borrowButtonConstraints.gridy = 2;
         add(borrowButton, borrowButtonConstraints);
 
-        JButton logOff = new JButton("Log off");
-        add(logOff);
+        JButton logOffButton = new JButton("Log off");
+        logOffButton.addActionListener(new LogOffActionListener(parentPanel, parentLayout));
+        add(logOffButton);
     }
 
     private Object[][] getBookData() {
-        String[][] mockData = {
-                {"bitch book", "bitch", "ay", "sd", "yes"}
-        };
-        return mockData;
+        return bookService.getBooksForTable();
     }
 }
