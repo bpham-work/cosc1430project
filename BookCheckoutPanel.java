@@ -37,8 +37,8 @@ public class BookCheckoutPanel extends JPanel {
             }
         };
         dataTable = new JTable(tableModel);
-        dataTable.setPreferredScrollableViewportSize(new Dimension(650, 500));
-        dataTable.setPreferredSize(new Dimension(650, 500));
+        dataTable.setPreferredScrollableViewportSize(new Dimension(600, 500));
+        dataTable.setPreferredSize(new Dimension(600, 500));
 
         GridBagConstraints gc = new GridBagConstraints();
         gc.fill = GridBagConstraints.HORIZONTAL;
