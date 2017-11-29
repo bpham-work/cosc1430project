@@ -10,7 +10,7 @@ public class Book {
         this.author = author;
         this.releaseDate = releaseDate;
         this.isbn = isbn;
-        this.isCheckedOut = isCheckedOut.equals("Yes");
+        this.isCheckedOut = isCheckedOut.toLowerCase().equals("yes");
     }
 
     public String getTitle() {

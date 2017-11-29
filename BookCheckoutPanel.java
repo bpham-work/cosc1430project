@@ -1,12 +1,17 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class BookCheckoutPanel extends JPanel {
     private JPanel parentPanel;
     private CardLayout parentLayout;
     private JTable dataTable;
+    private DefaultTableModel tableModel;
+
     private BookService bookService;
+    private String[][] bookData;
 
     private final String[] COLUMN_NAMES = {
             "Book Title",
@@ -21,15 +26,16 @@ public class BookCheckoutPanel extends JPanel {
         this.parentPanel = parentPanel;
         this.parentLayout = parentLayout;
         this.bookService = BookService.getInstance();
+        this.bookData = this.bookService.getBooksForTable();
 
         setLayout(new GridBagLayout());
-        DefaultTableModel nonEditableTableModel = new DefaultTableModel(getBookData(), COLUMN_NAMES) {
+        tableModel = new DefaultTableModel(bookData, COLUMN_NAMES) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
-        dataTable = new JTable(nonEditableTableModel);
+        dataTable = new JTable(tableModel);
         GridBagConstraints dataTableConstraints = new GridBagConstraints();
         dataTableConstraints.fill = GridBagConstraints.HORIZONTAL;
         dataTableConstraints.gridx = 0;
@@ -43,6 +49,7 @@ public class BookCheckoutPanel extends JPanel {
         borrowButtonConstraints.gridwidth = 1;
         borrowButtonConstraints.anchor = GridBagConstraints.PAGE_END;
         borrowButtonConstraints.gridy = 2;
+        borrowButton.addActionListener(new BookCheckoutActionListener());
         add(borrowButton, borrowButtonConstraints);
 
         JButton logOffButton = new JButton("Log off");
@@ -50,7 +57,27 @@ public class BookCheckoutPanel extends JPanel {
         add(logOffButton);
     }
 
-    private Object[][] getBookData() {
-        return bookService.getBooksForTable();
+    public void refreshBooks(String[][] bookData) {
+        this.bookData = bookData;
+        while (tableModel.getRowCount() > 0) {
+            int lastRow = tableModel.getRowCount() - 1;
+            tableModel.removeRow(lastRow);
+        }
+        for (int k = 0; k < this.bookData.length; k++) {
+            tableModel.addRow(bookData[k]);
+        }
+    }
+
+    private class BookCheckoutActionListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int selectedRowIndex = dataTable.getSelectedRow();
+            String[] selectedRow = bookData[selectedRowIndex];
+            String isbn = selectedRow[3];
+            bookService.checkoutBook(isbn);
+            String[][] bookData = bookService.getBooksForTable();
+            refreshBooks(bookData);
+        }
     }
 }

@@ -1,3 +1,4 @@
+10
 Pattern Recognition
 William Gibson
 02/01/2005
@@ -8,4 +9,52 @@ Machine Learning
 Ethem Alpaydin
 12/04/2009
 026201243X
+No
+
+Machine Learning Vol 2
+Ethem Alpaydin
+12/04/2201
+SDFSDF12222
+No
+
+Machine Learning Vol 3
+Ethem Alpaydin
+12/04/2444
+SDF234L2K3J4LK
+No
+
+Pragmatic Programmer
+John Cena
+12/04/2009
+SDF3434#D
+No
+
+Clean Code
+Robert Martin
+11/04/2222
+23KJJ3233
+No
+
+Effective Java
+Joshua Bloch
+12/04/2244
+12333KSDK
+No
+
+Agile Project Management
+John Cena
+12/04/2009
+026201243X
+No
+
+Cats In a Tree
+John Cena
+12/04/2009
+SDFSDF1231233
+No
+
+Algorithms
+John Cena
+12/04/2009
+SDFSDF2222
 No

@@ -28,6 +28,7 @@ public class BookService {
             String releaseDate;
             String isbn;
             String isCheckedOut;
+            b.readLine();
             while ((title = b.readLine()) != null) {
                 author = b.readLine();
                 releaseDate = b.readLine();
@@ -47,8 +48,8 @@ public class BookService {
         return allBooks;
     }
 
-    public Object[][] getBooksForTable() {
-        Object[][] data = new Object[allBooks.size()][5];
+    public String[][] getBooksForTable() {
+        String[][] data = new String[allBooks.size()][5];
         int counter = 0;
         for (Book book : allBooks.values()) {
             data[counter][0] = book.getTitle();
