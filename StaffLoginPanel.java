@@ -6,7 +6,9 @@ import java.awt.event.ActionListener;
 public class StaffLoginPanel extends JPanel {
     private JPanel parentPanel;
     private CardLayout parentLayout;
+
     private JTextField usernameField;
+    private JLabel loginErrorMessage;
     private JPasswordField passwordField;
 
     private StaffAuthenticator staffAuthenticator;
@@ -16,6 +18,11 @@ public class StaffLoginPanel extends JPanel {
         this.parentPanel = parentPanel;
         this.parentLayout = parentLayout;
         this.staffAuthenticator = StaffAuthenticator.getInstance();
+
+        loginErrorMessage = new JLabel("Incorrect login");
+        loginErrorMessage.setBackground(Color.RED);
+        loginErrorMessage.setVisible(false);
+        add(loginErrorMessage);
 
 //        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         JLabel usernameLabel = new JLabel("Username:");
@@ -39,7 +46,11 @@ public class StaffLoginPanel extends JPanel {
             String username = usernameField.getText().toLowerCase();
             String password = new String(passwordField.getPassword());
             boolean isAuthenticated = staffAuthenticator.authenticate(username, password);
-            System.out.println(isAuthenticated);
+            if (isAuthenticated) {
+                parentLayout.show(parentPanel, LayoutNameConstants.ADD_BOOK);
+            } else {
+                loginErrorMessage.setVisible(true);
+            }
         }
     }
 }

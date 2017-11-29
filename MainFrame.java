@@ -15,6 +15,9 @@ public class MainFrame extends JFrame {
         BookCheckoutPanel bookCheckoutPanel = new BookCheckoutPanel(parentPanel, parentLayout);
         parentPanel.add(bookCheckoutPanel, LayoutNameConstants.BOOK_CHECKOUT);
 
+        AddBookPanel addBookPanel = new AddBookPanel(parentPanel, parentLayout);
+        parentPanel.add(addBookPanel, LayoutNameConstants.ADD_BOOK);
+
         add(parentPanel);
     }
 

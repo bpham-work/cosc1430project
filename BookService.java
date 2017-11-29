@@ -17,6 +17,7 @@ public class BookService {
     }
 
     public String[][] getBooksForTable() {
+        loadBooks();
         String[][] data = new String[allBooks.size()][5];
         int counter = 0;
         for (Book book : allBooks.values()) {
@@ -50,6 +51,10 @@ public class BookService {
         allBooks.put(bookToAdd.getIsbn(), bookToAdd);
         writeBooksToFile();
         return allBooks;
+    }
+
+    public boolean bookExists(String isbn) {
+        return allBooks.containsKey(isbn);
     }
 
     private void loadBooks() {
