@@ -82,7 +82,6 @@ public class BookCheckoutPanel extends JPanel {
     }
 
     private class BookCheckoutActionListener implements ActionListener {
-
         @Override
         public void actionPerformed(ActionEvent e) {
             int selectedRowIndex = dataTable.getSelectedRow();
@@ -95,7 +94,6 @@ public class BookCheckoutPanel extends JPanel {
     }
 
     private class ReturnBookActionListener implements ActionListener {
-
         @Override
         public void actionPerformed(ActionEvent e) {
             int selectedRowIndex = dataTable.getSelectedRow();
@@ -108,7 +106,6 @@ public class BookCheckoutPanel extends JPanel {
     }
 
     private class RefreshBooksActionListener implements ActionListener {
-
         @Override
         public void actionPerformed(ActionEvent e) {
             refreshBooks(bookService.getBooksForTable());
