@@ -37,6 +37,8 @@ public class BookCheckoutPanel extends JPanel {
             }
         };
         dataTable = new JTable(tableModel);
+        dataTable.setPreferredScrollableViewportSize(new Dimension(650, 500));
+        dataTable.setPreferredSize(new Dimension(650, 500));
 
         GridBagConstraints gc = new GridBagConstraints();
         gc.fill = GridBagConstraints.HORIZONTAL;
@@ -53,25 +55,25 @@ public class BookCheckoutPanel extends JPanel {
         JButton checkoutButton = new JButton("Check out");
         checkoutButton.addActionListener(new BookCheckoutActionListener());
         gc.gridx = 1;
-        gc.gridy = 0;
+        gc.gridy = 1;
         add(checkoutButton, gc);
 
         JButton returnButton = new JButton("Return");
         returnButton.addActionListener(new ReturnBookActionListener());
         gc.gridx = 1;
-        gc.gridy = 1;
+        gc.gridy = 2;
         add(returnButton, gc);
 
         JButton refreshButton = new JButton("Refresh");
         refreshButton.addActionListener(new RefreshBooksActionListener());
         gc.gridx = 1;
-        gc.gridy = 2;
+        gc.gridy = 3;
         add(refreshButton, gc);
 
         JButton logOffButton = new JButton("Log off");
         logOffButton.addActionListener(new LogOffActionListener(parentPanel, parentLayout));
         gc.gridx = 1;
-        gc.gridy = 3;
+        gc.gridy = 4;
         add(logOffButton, gc);
     }
 
@@ -119,17 +121,22 @@ public class BookCheckoutPanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             int selectedRowIndex = dataTable.getSelectedRow();
-            String[] selectedRow = bookData[selectedRowIndex];
-            boolean isCheckedOut = isCheckedOut(selectedRow);
-            if (isCheckedOut) {
-                String isbn = selectedRow[3];
-                bookService.returnBook(isbn);
-                String[][] bookData = bookService.getBooksForTable();
-                refreshBooks(bookData);
-                message.setText("SUCCESS: Book has been returned");
-                message.setForeground(Color.GREEN);
+            if (selectedRowIndex > -1) {
+                String[] selectedRow = bookData[selectedRowIndex];
+                boolean isCheckedOut = isCheckedOut(selectedRow);
+                if (isCheckedOut) {
+                    String isbn = selectedRow[3];
+                    bookService.returnBook(isbn);
+                    String[][] bookData = bookService.getBooksForTable();
+                    refreshBooks(bookData);
+                    message.setText("SUCCESS: Book has been returned");
+                    message.setForeground(Color.GREEN);
+                } else {
+                    message.setText("ERROR: Book has already been returned");
+                    message.setForeground(Color.RED);
+                }
             } else {
-                message.setText("ERROR: Book has already been returned");
+                message.setText("ERROR: Please select a book to return");
                 message.setForeground(Color.RED);
             }
         }
