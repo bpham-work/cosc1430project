@@ -9,6 +9,7 @@ public class BookCheckoutPanel extends JPanel {
     private CardLayout parentLayout;
     private JTable dataTable;
     private DefaultTableModel tableModel;
+    private JLabel message;
 
     private BookService bookService;
     private String[][] bookData;
@@ -40,16 +41,20 @@ public class BookCheckoutPanel extends JPanel {
         GridBagConstraints gc = new GridBagConstraints();
         gc.fill = GridBagConstraints.HORIZONTAL;
         gc.insets = new Insets(10, 10, 10, 10);
-
         gc.gridx = 0;
         gc.gridy = 0;
         add(new JScrollPane(dataTable), gc);
 
-        JButton borrowButton = new JButton("Borrow");
-        borrowButton.addActionListener(new BookCheckoutActionListener());
+        message = new JLabel();
+        gc.gridx = 0;
+        gc.gridy = 1;
+        add(message, gc);
+
+        JButton checkoutButton = new JButton("Check out");
+        checkoutButton.addActionListener(new BookCheckoutActionListener());
         gc.gridx = 1;
         gc.gridy = 0;
-        add(borrowButton, gc);
+        add(checkoutButton, gc);
 
         JButton returnButton = new JButton("Return");
         returnButton.addActionListener(new ReturnBookActionListener());
@@ -81,15 +86,32 @@ public class BookCheckoutPanel extends JPanel {
         }
     }
 
+    public boolean isCheckedOut(String[] selectedRow) {
+        return selectedRow[4].toLowerCase().equals("yes");
+    }
+
     private class BookCheckoutActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             int selectedRowIndex = dataTable.getSelectedRow();
-            String[] selectedRow = bookData[selectedRowIndex];
-            String isbn = selectedRow[3];
-            bookService.checkoutBook(isbn);
-            String[][] bookData = bookService.getBooksForTable();
-            refreshBooks(bookData);
+            if (selectedRowIndex > -1) {
+                String[] selectedRow = bookData[selectedRowIndex];
+                boolean isCheckedOut = isCheckedOut(selectedRow);
+                if (!isCheckedOut) {
+                    String isbn = selectedRow[3];
+                    bookService.checkoutBook(isbn);
+                    String[][] bookData = bookService.getBooksForTable();
+                    refreshBooks(bookData);
+                    message.setText("SUCCESS: Book has been checked out");
+                    message.setForeground(Color.GREEN);
+                } else {
+                    message.setText("ERROR: Book is already checked out");
+                    message.setForeground(Color.RED);
+                }
+            } else {
+                message.setText("ERROR: Please select a book to check out");
+                message.setForeground(Color.RED);
+            }
         }
     }
 
@@ -98,10 +120,18 @@ public class BookCheckoutPanel extends JPanel {
         public void actionPerformed(ActionEvent e) {
             int selectedRowIndex = dataTable.getSelectedRow();
             String[] selectedRow = bookData[selectedRowIndex];
-            String isbn = selectedRow[3];
-            bookService.returnBook(isbn);
-            String[][] bookData = bookService.getBooksForTable();
-            refreshBooks(bookData);
+            boolean isCheckedOut = isCheckedOut(selectedRow);
+            if (isCheckedOut) {
+                String isbn = selectedRow[3];
+                bookService.returnBook(isbn);
+                String[][] bookData = bookService.getBooksForTable();
+                refreshBooks(bookData);
+                message.setText("SUCCESS: Book has been returned");
+                message.setForeground(Color.GREEN);
+            } else {
+                message.setText("ERROR: Book has already been returned");
+                message.setForeground(Color.RED);
+            }
         }
     }
 
