@@ -36,11 +36,11 @@ public class BookCheckoutPanel extends JPanel {
             }
         };
         dataTable = new JTable(tableModel);
-        GridBagConstraints dataTableConstraints = new GridBagConstraints();
-        dataTableConstraints.fill = GridBagConstraints.HORIZONTAL;
-        dataTableConstraints.gridx = 0;
-        dataTableConstraints.gridy = 0;
-        add(new JScrollPane(dataTable), dataTableConstraints);
+        GridBagConstraints gc = new GridBagConstraints();
+        gc.fill = GridBagConstraints.HORIZONTAL;
+        gc.gridx = 0;
+        gc.gridy = 0;
+        add(new JScrollPane(dataTable), gc);
 
         JButton borrowButton = new JButton("Borrow");
         GridBagConstraints borrowButtonConstraints = new GridBagConstraints();

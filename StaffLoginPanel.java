@@ -18,26 +18,51 @@ public class StaffLoginPanel extends JPanel {
         this.parentPanel = parentPanel;
         this.parentLayout = parentLayout;
         this.staffAuthenticator = StaffAuthenticator.getInstance();
+        setLayout(new GridBagLayout());
+
+        GridBagConstraints gc = new GridBagConstraints();
+        gc.fill = GridBagConstraints.HORIZONTAL;
+        gc.insets = new Insets(10, 10, 10, 10);
+
+        JLabel banner = new JLabel("Login as a staff member:");
+        gc.gridx = 0;
+        gc.gridy = 0;
+        add(banner, gc);
 
         loginErrorMessage = new JLabel("Incorrect login");
-        loginErrorMessage.setBackground(Color.RED);
+        loginErrorMessage.setForeground(Color.RED);
         loginErrorMessage.setVisible(false);
+        gc.gridx = 0;
+        gc.gridy = 1;
         add(loginErrorMessage);
 
-//        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         JLabel usernameLabel = new JLabel("Username:");
         usernameField = new JTextField("", 20);
-        add(usernameLabel);
-        add(usernameField);
+        gc.gridx = 0;
+        gc.gridy = 2;
+        add(usernameLabel, gc);
+        gc.gridx = 1;
+        add(usernameField, gc);
 
         JLabel passwordLabel = new JLabel("Password:");
         passwordField = new JPasswordField("", 20);
-        add(passwordLabel);
-        add(passwordField);
+        gc.gridx = 0;
+        gc.gridy = 3;
+        add(passwordLabel, gc);
+        gc.gridx = 1;
+        add(passwordField, gc);
 
         JButton loginButton = new JButton("Login");
         loginButton.addActionListener(new LoginActionListener());
-        add(loginButton);
+        gc.gridx = 2;
+        gc.gridy = 4;
+        add(loginButton, gc);
+
+        JButton backButton = new JButton("Back");
+        backButton.addActionListener(new LogOffActionListener(parentPanel, parentLayout));
+        gc.gridx = 3;
+        gc.gridy = 4;
+        add(backButton, gc);
     }
 
     private class LoginActionListener implements ActionListener {

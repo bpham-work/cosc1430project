@@ -11,12 +11,29 @@ public class UserSelectPanel extends JPanel {
         super();
         this.parentPanel = parentPanel;
         this.parentLayout = parentLayout;
+        setLayout(new GridBagLayout());
+
+        GridBagConstraints gc = new GridBagConstraints();
+        gc.fill = GridBagConstraints.HORIZONTAL;
+        gc.insets = new Insets(10, 10, 10, 10);
+
+        JLabel banner1 = new JLabel("Library Management System");
+        JLabel banner2 = new JLabel("Select your role to proceed");
+        gc.gridx = 1;
+        gc.gridy = 0;
+        add(banner1, gc);
+        gc.gridy = 1;
+        add(banner2, gc);
+
         JButton studentButton = new JButton("Student");
         studentButton.addActionListener(new NavigateToBookCheckoutPanel());
         JButton staffButton = new JButton("Staff");
         staffButton.addActionListener(new NavigateToStaffLoginPanel());
-        add(studentButton);
-        add(staffButton);
+        gc.gridx = 0;
+        gc.gridy = 2;
+        add(studentButton, gc);
+        gc.gridx = 2;
+        add(staffButton, gc);
     }
 
     private class NavigateToBookCheckoutPanel implements ActionListener {
