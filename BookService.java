@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +14,42 @@ public class BookService {
 
     private BookService() {
         loadBooks();
+    }
+
+    public String[][] getBooksForTable() {
+        String[][] data = new String[allBooks.size()][5];
+        int counter = 0;
+        for (Book book : allBooks.values()) {
+            data[counter][0] = book.getTitle();
+            data[counter][1] = book.getAuthor();
+            data[counter][2] = book.getReleaseDate();
+            data[counter][3] = book.getIsbn();
+            data[counter][4] = book.getCheckedOutStatusAsString();
+            counter++;
+        }
+        return data;
+    }
+
+    public Map<String, Book> checkoutBook(String isbn) {
+        Book book = allBooks.get(isbn);
+        book.checkout();
+        allBooks.put(isbn, book);
+        writeBooksToFile();
+        return allBooks;
+    }
+
+    public Map<String, Book> returnBook(String isbn) {
+        Book book = allBooks.get(isbn);
+        book.returnBook();
+        allBooks.put(isbn, book);
+        writeBooksToFile();
+        return allBooks;
+    }
+
+    public Map<String, Book> addBook(Book bookToAdd) {
+        allBooks.put(bookToAdd.getIsbn(), bookToAdd);
+        writeBooksToFile();
+        return allBooks;
     }
 
     private void loadBooks() {
@@ -44,40 +77,33 @@ public class BookService {
         }
     }
 
-    public Map<String, Book> getAllBooks() {
-        return allBooks;
-    }
+    private void writeBooksToFile() {
+        try {
+            FileWriter fileWriter = new FileWriter(FILE_NAME);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write(Integer.toString(allBooks.size()));
+            bufferedWriter.newLine();
+            for (Book book : allBooks.values()) {
+                bufferedWriter.write(book.getTitle());
+                bufferedWriter.newLine();
 
-    public String[][] getBooksForTable() {
-        String[][] data = new String[allBooks.size()][5];
-        int counter = 0;
-        for (Book book : allBooks.values()) {
-            data[counter][0] = book.getTitle();
-            data[counter][1] = book.getAuthor();
-            data[counter][2] = book.getReleaseDate();
-            data[counter][3] = book.getIsbn();
-            data[counter][4] = book.getCheckedOutStatusAsString();
-            counter++;
+                bufferedWriter.write(book.getAuthor());
+                bufferedWriter.newLine();
+
+                bufferedWriter.write(book.getReleaseDate());
+                bufferedWriter.newLine();
+
+                bufferedWriter.write(book.getIsbn());
+                bufferedWriter.newLine();
+
+                bufferedWriter.write(book.getCheckedOutStatusAsString());
+                bufferedWriter.newLine();
+                bufferedWriter.newLine();
+            }
+            bufferedWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return data;
-    }
 
-    public Map<String, Book> checkoutBook(String isbn) {
-        Book book = allBooks.get(isbn);
-        book.checkout();
-        allBooks.put(isbn, book);
-        return allBooks;
-    }
-
-    public Map<String, Book> returnBook(String isbn) {
-        Book book = allBooks.get(isbn);
-        book.returnBook();
-        allBooks.put(isbn, book);
-        return allBooks;
-    }
-
-    public Map<String, Book> addBook(Book bookToAdd) {
-        allBooks.put(bookToAdd.getIsbn(), bookToAdd);
-        return allBooks;
     }
 }

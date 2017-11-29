@@ -1,38 +1,38 @@
 10
+Algorithms
+John Cena
+12/04/2009
+SDFSDF2222
+Yes
+
 Pattern Recognition
 William Gibson
 02/01/2005
 0425198685
-No
-
-Machine Learning
-Ethem Alpaydin
-12/04/2009
-026201243X
-No
+Yes
 
 Machine Learning Vol 2
 Ethem Alpaydin
 12/04/2201
 SDFSDF12222
-No
-
-Machine Learning Vol 3
-Ethem Alpaydin
-12/04/2444
-SDF234L2K3J4LK
-No
-
-Pragmatic Programmer
-John Cena
-12/04/2009
-SDF3434#D
-No
+Yes
 
 Clean Code
 Robert Martin
 11/04/2222
 23KJJ3233
+Yes
+
+Pragmatic Programmer
+John Cena
+12/04/2009
+SDF3434#D
+Yes
+
+Agile Project Management
+John Cena
+12/04/2009
+026201243X
 No
 
 Effective Java
@@ -41,10 +41,16 @@ Joshua Bloch
 12333KSDK
 No
 
-Agile Project Management
+Machine Learning Vol 3
+Ethem Alpaydin
+12/04/2444
+SDF234L2K3J4LK
+No
+
+Dragonball GT
 John Cena
 12/04/2009
-026201243X
+JK23344JJJJJ
 No
 
 Cats In a Tree
@@ -53,8 +59,3 @@ John Cena
 SDFSDF1231233
 No
 
-Algorithms
-John Cena
-12/04/2009
-SDFSDF2222
-No
