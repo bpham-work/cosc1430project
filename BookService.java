@@ -37,6 +37,7 @@ public class BookService {
                 Book book = new Book(title, author, releaseDate, isbn, isCheckedOut);
                 allBooks.put(book.getIsbn(), book);
             }
+            b.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
