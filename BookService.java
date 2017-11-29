@@ -54,24 +54,24 @@ public class BookService {
 
     private void loadBooks() {
         try {
-            File f = new File(FILE_NAME);
-            BufferedReader b = new BufferedReader(new FileReader(f));
+            File file = new File(FILE_NAME);
+            BufferedReader buffer = new BufferedReader(new FileReader(file));
             String title;
             String author;
             String releaseDate;
             String isbn;
             String isCheckedOut;
-            b.readLine();
-            while ((title = b.readLine()) != null) {
-                author = b.readLine();
-                releaseDate = b.readLine();
-                isbn = b.readLine();
-                isCheckedOut = b.readLine();
-                b.readLine();
+            buffer.readLine();
+            while ((title = buffer.readLine()) != null) {
+                author = buffer.readLine();
+                releaseDate = buffer.readLine();
+                isbn = buffer.readLine();
+                isCheckedOut = buffer.readLine();
+                buffer.readLine();
                 Book book = new Book(title, author, releaseDate, isbn, isCheckedOut);
                 allBooks.put(book.getIsbn(), book);
             }
-            b.close();
+            buffer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -80,30 +80,29 @@ public class BookService {
     private void writeBooksToFile() {
         try {
             FileWriter fileWriter = new FileWriter(FILE_NAME);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.write(Integer.toString(allBooks.size()));
-            bufferedWriter.newLine();
+            BufferedWriter buffer = new BufferedWriter(fileWriter);
+            buffer.write(Integer.toString(allBooks.size()));
+            buffer.newLine();
             for (Book book : allBooks.values()) {
-                bufferedWriter.write(book.getTitle());
-                bufferedWriter.newLine();
+                buffer.write(book.getTitle());
+                buffer.newLine();
 
-                bufferedWriter.write(book.getAuthor());
-                bufferedWriter.newLine();
+                buffer.write(book.getAuthor());
+                buffer.newLine();
 
-                bufferedWriter.write(book.getReleaseDate());
-                bufferedWriter.newLine();
+                buffer.write(book.getReleaseDate());
+                buffer.newLine();
 
-                bufferedWriter.write(book.getIsbn());
-                bufferedWriter.newLine();
+                buffer.write(book.getIsbn());
+                buffer.newLine();
 
-                bufferedWriter.write(book.getCheckedOutStatusAsString());
-                bufferedWriter.newLine();
-                bufferedWriter.newLine();
+                buffer.write(book.getCheckedOutStatusAsString());
+                buffer.newLine();
+                buffer.newLine();
             }
-            bufferedWriter.close();
+            buffer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }
